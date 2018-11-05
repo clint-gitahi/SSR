@@ -13,7 +13,9 @@ app.get("*", (req, res) => {
   const store = createStore();
 
   // logic to initialize and load data into the store
-  console.log(matchRoutes(Routes, req.path));
+  matchRoutes(Routes, req.path).map(({ route }) => {
+    return route.loadData ? route.loadData() : null;
+  });
 
   res.send(renderer(req, store));
 });
